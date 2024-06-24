@@ -10,18 +10,19 @@
 
 <a id="overview"></a>
 
+<br/>
+
 ## Overview
 
 This is an API project for managing products and their relationships with departments. The API is built with Node.js, Express.js, and TypeScript, using TypeORM to interact with the PostgreSQL database.
 
 
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" width=50 /> 
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original-wordmark.svg" width=50/> 
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original-wordmark.svg" width=50/> 
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original-wordmark.svg" width=50/>
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" width=50 /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original-wordmark.svg" width=50/> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original-wordmark.svg" width=50/> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original-wordmark.svg" width=50/>
 
 
 <a id="features"></a>
+
+<br/>
 
 ## Features
 ### Products Management:
@@ -48,7 +49,6 @@ This is an API project for managing products and their relationships with depart
 
 </br>
 
-
 ## Entity Relationship Diagram
 
 <img src="./readmeAssets/modeloRelacional.png"/> 
@@ -59,6 +59,8 @@ This is an API project for managing products and their relationships with depart
 The relationship between Products and Departments is managed through a join table automatically created by TypeORM based on the Many-to-Many association in the entities. One product can be associated with one or more departments and one department can be associated with one or more products. 
 
 <a id="endpoints"></a>
+
+<br/>
 
 ## API Endpoints
 
