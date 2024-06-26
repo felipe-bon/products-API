@@ -69,7 +69,7 @@ The relationship between Products and Departments is managed through a join tabl
 - POST /products: Create a new product.
 - GET /products: Retrieve all products.
 - GET /products/:id: Retrieve a product by ID.
-- GET /products/:departmentName: Retrieve all products within a department.
+- GET /departments/:departmentName/products: Retrieve all products within a department.
 - PUT /products/:id: Update a product by ID.
 - DELETE /products/:id: Delete a product by ID.
 
