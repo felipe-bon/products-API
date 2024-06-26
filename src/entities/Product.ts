@@ -35,7 +35,7 @@ export class Product {
         nullable: false})
     price: number;
 
-    @ManyToMany(() => Department, department => department.products, { cascade: true })
+    @ManyToMany(() => Department, department => department.products)
     @JoinTable()
     departments: Department[];
 
