@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Product } from "./Product";
 
 @Entity('departments')
@@ -14,6 +14,6 @@ export class Department {
      })
     department_name: string
 
-    @ManyToMany(() => Product, product => product.departments)
+    @ManyToMany(() => Product, product => product.departments, { cascade: true, onDelete: 'CASCADE' })
     products: Product[];
 }
