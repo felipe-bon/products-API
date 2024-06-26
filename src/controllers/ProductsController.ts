@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { productRepository } from "../repositories/productRepository";
 import { DepartmentRepository } from "../repositories/departmentRepository";
+import { In } from "typeorm";
 
 export class ProductController {
     
@@ -32,7 +33,7 @@ export class ProductController {
             return res.status(201).json(newProduct);
         } catch (error) {
             console.error(error);
-            return res.status(500).json({ message: 'Internal Server Error' });
+            return res.status(500).json({ message: 'Internal server error' });
         }
     }
 
@@ -46,9 +47,78 @@ export class ProductController {
 
         } catch(error){
             console.log(error)
-            return res.status(500).json({message: 'Internal Server Error'});
+            return res.status(500).json({message: 'Internal server error'});
         }
     }
+
+    async getProduct(req: Request, res: Response){
+        const { id } = req.params;
+
+        try{
+
+            const productId = parseInt(id);
+
+            const product = await productRepository.findOneBy({id: productId});
+            
+            if(!product){
+                return res.status(404).json('Product not found')
+            }
+
+            return res.status(200).json(product)
+
+        }catch(error){
+            console.log(error);
+            return res.status(500).json({message: 'Internal Server Error'});
+        }
+
+    }
+
+
+    async updateProduct(req: Request, res: Response) {
+        const { id } = req.params;
+        const { name, description, barcode, price, departmentIds } = req.body;
+
+        try {
+            const productId = parseInt(id);
+            const departmentIdsInt = departmentIds.map((i: { id: string; }) => parseInt(i.id));
+
+            const product = await productRepository.findOne({
+                where: { id: productId },
+                relations: ["departments"]
+            });
+
+
+            if(!product){
+                return res.status(404).json({message:"Product not found"});
+            }
+
+            // verifica se os deparments existem.
+
+            const departments = await DepartmentRepository.findBy({
+                id: In (departmentIdsInt)
+            })
+
+            
+            if(!departments || (Object.values(departments)).length != departmentIdsInt.length){
+                return res.status(404).json({message:'One or more departments not found'});
+            }
+
+            if (name) product.name = name;
+            if (description) product.description = description;
+            if (barcode) product.barcode = barcode;
+            if (price) product.price = price;
+            product.departments = departments;
+
+            await productRepository.save(product);
+
+            return res.status(200).json(product);
+
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: 'Internal Server Error' });
+        }
+    }
+
 
     async getProductsByDepartment(req: Request, res: Response) {
         const { departmentName } = req.params;
@@ -64,8 +134,34 @@ export class ProductController {
 
         } catch (error) {
             console.error(error);
+            return res.status(500).json({ message: 'Internal server error' });
+        }
+    }
+
+    async deleteProduct(req: Request, res: Response){
+
+        const { id } = req.params
+        
+
+        try{
+
+            const productId = parseInt(id)
+            const product = await productRepository.findOneBy({id: productId});
+
+            if (!product){
+                return res.status(404).json('Product not nound');
+            }
+
+            await productRepository.delete(id)
+
+            return res.status(200).json({message:'Product deleted'});
+
+        }catch(error){
+            console.log(error);
             return res.status(500).json({ message: 'Internal Server Error' });
         }
+
+
     }
 
 }
